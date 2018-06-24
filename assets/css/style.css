@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'Times New Roman', Times, Georgia, serif; 
+}
+
+body {
+    background-image: url("../images/Abstract-design-background/6726.jpg");
+    
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+button,
+div,
+form,
+input {
+    margin: 10px;
+}
+
