@@ -43,14 +43,19 @@
 
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=asAO8ArUemSJHtUVSaVcX88Hzgl2FIgn&limit=10";
 
+        //var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        topic + "&api_key=dc6zaTOxFJmzC&limit=10";
+
             $.ajax({
             url: queryURL,
             method: "GET"
             }).then(function(response) {
                 console.log(response);
-                console.log(response.data[0].images.original_still.url);
+                //console.log(response.data[0].images.original_still.url);
                 $("#favoriteGifs").html("<img src=" + response.data[0].images.original_still.url + "/>");
-                console.log(response.data[i].images.original_still.url);
+                //console.log(response.data[i].images.original_still.url);
+                //console.log(response.data[i].images.original.url);
+                console.log(response.data[0].images.original.url+ "_s");
                 var results = response.data;
 
                 for (var i = 0; i < results.length; i++) {
