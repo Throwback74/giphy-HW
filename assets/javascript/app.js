@@ -1,32 +1,31 @@
-$(document).ready(function() {    
+// $(document).ready(function() {    
     var topics = ["Pokemon", "Tomagatchi", "Batman", "Playstation", "Jak & Daxter", "Ratchet & Clank", "Zelda", "Animorphs", "Goosebumps", "Dragon Ball Z"];
 
     // The Function that creates the buttons for each item
-    function renderButtons() {
+    var renderButtons = function() {
 
     // Remove what was in there already in order to avoid doubles
-    $("#favoriteButtons").empty();
+        $("#favoriteButtons").empty();
 
     // Loop the array using array.length to adjust to expanding array sizes
-    for (var i = 0; i < topics.length; i++) {
-        // $("#favoriteButtons").append("<button class='favorites-btn' 'data-target'=" + topics[i] + ">" + topics[i] + "</button>");
-        var a = $("<button>");
-        a.addClass("favorites-btn");
-        a.attr("data-name", topics[i]);
-        a.text(topics[i]);
-        $("#favoriteButtons").append(a);
-        
-        }
-    }
+        for (var i = 0; i < topics.length; i++) {
+            // $("#favoriteButtons").append("<button class='favorites-btn' 'data-target'=" + topics[i] + ">" + topics[i] + "</button>");
+            var a = $("<button>");
+            a.addClass("favorites-btn");
+            a.attr("data-name", topics[i]);
+            a.text(topics[i]);
+            $("#favoriteButtons").append(a);
+        };
+    };
     $("#addFavorite").on("click", function(event) {
         event.preventDefault();
         // This line grabs the input from the textbox
         var topic = $("#favorites-input").val().trim();
 
-        // Adding movie from the textbox to our array
+        // Adding topic from the textbox to our array
         topics.push(topic);
 
-        // Calling renderButtons which handles the processing of our movie array
+        // Calling renderButtons which handles the processing of our array
         renderButtons();
     });
 
@@ -40,9 +39,9 @@ $(document).ready(function() {
 
         //Modified w/ original_still "http://media0.giphy.com/media/feqkVgjJpYtjy/giphy_s.gif",
         
-        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=V2140B3NOAnFb0N0CCuJzkaiHaGjwFVH&q=" + topic + "&limit=10&offset=0&lang=en";
+        // var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "api_key=V2140B3NOAnFb0N0CCuJzkaiHaGjwFVH&q=&limit=10&offset=0&lang=en";
 
-        // var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=asAO8ArUemSJHtUVSaVcX88Hzgl2FIgn&limit=10";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=asAO8ArUemSJHtUVSaVcX88Hzgl2FIgn&limit=10";
 
             $.ajax({
             url: queryURL,
@@ -50,12 +49,13 @@ $(document).ready(function() {
             }).then(function(response) {
                 console.log(response);
                 console.log(response.data[0].images.original_still.url);
+                $("#favoriteGifs").html("<img src=" + response.data[0].images.original_still.url + "/>");
                 console.log(response.data[i].images.original_still.url);
                 var results = response.data;
 
                 for (var i = 0; i < results.length; i++) {
                     // console.log(response.data[i].images.original.url);
-                    console.log(response.data[i].images.original.url);
+                    console.log("image array: " + response.data[i].images.original.url);
 
                     var favoritesDiv = $("<div>");
 
@@ -136,4 +136,4 @@ $(document).on("click", ".favorites-btn", gifPuller);
 
 // Calling the renderButtons function to display the intial buttons
 renderButtons();      
-});
+// });
