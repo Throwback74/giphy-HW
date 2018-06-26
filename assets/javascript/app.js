@@ -1,12 +1,14 @@
 // $(document).ready(function() {    
-    var topics = ["Pokemon", "Tomagatchi", "Batman", "Playstation", "Jak & Daxter", "Ratchet & Clank", "Zelda", "Animorphs", "Goosebumps", "Dragon Ball Z"];
+    var topics = ["Pokemon", "Tamagotchi", "Batman", "Playstation", "Star Wars", "Ratchet & Clank", "Legend of Zelda", "Animorphs", "Goosebumps", "Dragon Ball Z"];
+    var origURL = "";
 
+    var stillURL = "";
     // The Function that creates the buttons for each item
     var renderButtons = function() {
 
     // Remove what was in there already in order to avoid doubles
         $("#favoriteButtons").empty();
-
+        $("#favorites-input").empty();
     // Loop the array using array.length to adjust to expanding array sizes
         for (var i = 0; i < topics.length; i++) {
             // $("#favoriteButtons").append("<button class='favorites-btn' 'data-target'=" + topics[i] + ">" + topics[i] + "</button>");
@@ -25,7 +27,9 @@
         // Adding topic from the textbox to our array
         topics.push(topic);
 
+
         // Calling renderButtons which handles the processing of our array
+        
         renderButtons();
     });
 
@@ -52,7 +56,7 @@
             }).then(function(response) {
                 console.log(response);
                 //console.log(response.data[0].images.original_still.url);
-                $("#favoriteGifs").html("<img src=" + response.data[0].images.original_still.url + "/>");
+                // $("#favoriteGifs").html("<img src=" + response.data[0].images.original_still.url + ">");
                 //console.log(response.data[i].images.original_still.url);
                 //console.log(response.data[i].images.original.url);
                 console.log(response.data[0].images.original.url+ "_s");
@@ -65,42 +69,50 @@
                     var favoritesDiv = $("<div>");
 
                     var rating = results[i].rating;
-                
+                    
+                    console.log(rating);
                     var p = $("<p>").text("Rating: " + rating);
+                    console.log(p);
 
                     // var rating = $(p).html("Rating: " + results[i].rating);
                     
                     var topicImage = $("<img>");
 
-                    var origURL = results[i].images.original.url;
+                    origURL = results[i].images.original.url;
                     console.log("original: " + origURL);
 
                     var altStillURL = origURL + "_s";
                     console.log("altstill: " + altStillURL);
 
-                    var stillURL = results[i].images.original_still.url;
+                    stillURL = results[i].images.original_still.url;
                     console.log("still: " + stillURL);
 
                     topicImage.attr({
                         src: stillURL,
-                        dataState: "still"
+                        dataState: "still",
+                        dataAnimate: origURL,
+                        dataStill: stillURL
                     });
 
                     topicImage.addClass("gif");
 
                     // $(".gif").attr("dataState", "still");
 
-                    favoritesDiv.append(p);
-
                     favoritesDiv.append(topicImage);
 
-                    $("#favoriteGifs").prepend(topicImage);
+                    favoritesDiv.append(p);
+
+                    $("#favoriteGifs").prepend(favoritesDiv);
 
                 };
             });
     };
                     // var fixedStillURL = results[i].images.fixed_width_still;
 
+    $("#underline").click(function() {
+        console.log("test: " + origURL);
+        console.log("test2: " + stillURL);
+    });
                     // var stillImage = $("<img>").attr("src", stillURL);
                     
                     // var origURL = results[i].images.original.url;
@@ -120,23 +132,36 @@
                     // $("#favoriteGifs").append(favoritesDiv);
                     
                     // favoritesDiv.append(image);
-
-//var pausePlay = 
-    $(".gif").click(function() {
-
+    $(document).on("click", ".gif", function() {
+    // $(":image").on("click", function() {
+        console.log("does this thing even work?")
+        console.log(this);
         var state = $(this).attr("dataState");
+        var animated = $(this).attr("dataAnimate");
+        var stopped = $(this).attr("dataStill");
+        console.log("state: " + state);
+        console.log("animated: " + animated);
+        console.log("stillImage: " + stopped);
 
         if(state === "still") {
-            $(this).attr("src", $(this).attr(gifPuller.origURL));
-            $(this).attr("dataState", "animate");
+            // $(this).attr("src", $(this).attr(origURL));
+            // $(this).attr("dataState", "animate");
+            $(this).attr({
+                src : animated,
+                dataState : "animate"
+            });
         } else {
-            $(this).attr("src", $(this).attr(gifPuller.stillURL));
-            $(this).attr("dataState", "still");
+            $(this).attr({
+                src : stopped,
+                dataState : "still"
+            });
+            // $(this).attr("src", $(this).attr(stillURL));
+            // $(this).attr("dataState", "still");
         };
 
     });
 
-// Adding a click event listener to all elements with a class of favorites-btn
+// Add an onclick event listener to all elems w/ a class of favorites-btn
 $(document).on("click", ".favorites-btn", gifPuller);
 
 // Calling the renderButtons function to display the intial buttons
