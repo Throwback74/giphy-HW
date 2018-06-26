@@ -20,3 +20,6 @@ input {
     margin: 10px;
 }
 
+#limit-input {
+    width: 50px;
+}

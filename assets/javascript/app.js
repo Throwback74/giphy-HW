@@ -3,6 +3,9 @@
     var origURL = "";
 
     var stillURL = "";
+
+    var limit = 10;
+
     // The Function that creates the buttons for each item
     var renderButtons = function() {
 
@@ -32,6 +35,17 @@
         
         renderButtons();
     });
+    $("#addLimit").on("click", function(event) {
+        event.preventDefault();
+
+        // topic = gifPuller.topic;
+
+        // $("#favoriteGifs").empty();
+        //Grab the new limit and update the var for the queryURL
+        limit = $("#limit-input").val().trim();
+        //IF you run gifPuller here then you can just add an additional "limit" # of gifs instead of having to push the button again
+        // gifPuller();
+    });
 
     var gifPuller = function() {
 
@@ -45,10 +59,10 @@
         
         // var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "api_key=V2140B3NOAnFb0N0CCuJzkaiHaGjwFVH&q=&limit=10&offset=0&lang=en";
 
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=asAO8ArUemSJHtUVSaVcX88Hzgl2FIgn&limit=10";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=asAO8ArUemSJHtUVSaVcX88Hzgl2FIgn&limit=" + limit + "&offset=0&lang=en";
 
         //var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-        topic + "&api_key=dc6zaTOxFJmzC&limit=10";
+        //topic + "&api_key=dc6zaTOxFJmzC&limit=10";
 
             $.ajax({
             url: queryURL,
