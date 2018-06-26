@@ -1,11 +1,12 @@
 // $(document).ready(function() {    
-    var topics = ["Pokemon", "Tamagotchi", "Batman", "Playstation", "Star Wars", "Ratchet & Clank", "Legend of Zelda", "Animorphs", "Goosebumps", "Dragon Ball Z"];
+    var topics = ["Pokemon", "Tamagotchi", "Batman", "Playstation", "Star Wars", "Jak & Daxter", "Legend of Zelda", "Animorphs", "Goosebumps", "Dragon Ball Z"];
     var origURL = "";
 
     var stillURL = "";
 
     var limit = 10;
 
+    var topic = "";
     // The Function that creates the buttons for each item
     var renderButtons = function() {
 
@@ -25,7 +26,7 @@
     $("#addFavorite").on("click", function(event) {
         event.preventDefault();
         // This line grabs the input from the textbox
-        var topic = $("#favorites-input").val().trim();
+        topic = $("#favorites-input").val().trim();
 
         // Adding topic from the textbox to our array
         topics.push(topic);
@@ -37,14 +38,15 @@
     });
     $("#addLimit").on("click", function(event) {
         event.preventDefault();
+        
+        topic = $(".gif").attr("dataTopic");
+        console.log("Hey Corey2: " + topic);
 
-        // topic = gifPuller.topic;
-
-        // $("#favoriteGifs").empty();
+        $("#favoriteGifs").empty();
         //Grab the new limit and update the var for the queryURL
         limit = $("#limit-input").val().trim();
         //IF you run gifPuller here then you can just add an additional "limit" # of gifs instead of having to push the button again
-        // gifPuller();
+        gifPuller(topic);
     });
 
     var gifPuller = function() {
@@ -105,7 +107,8 @@
                         src: stillURL,
                         dataState: "still",
                         dataAnimate: origURL,
-                        dataStill: stillURL
+                        dataStill: stillURL,
+                        dataTopic: topic
                     });
 
                     topicImage.addClass("gif");
@@ -122,7 +125,7 @@
             });
     };
                     // var fixedStillURL = results[i].images.fixed_width_still;
-
+    
     $("#underline").click(function() {
         console.log("test: " + origURL);
         console.log("test2: " + stillURL);
